@@ -38,7 +38,7 @@
       })
     },
     mounted() {
-      new Sortable(this.$el, {
+      const sortable = new Sortable(this.$el, {
         draggable: `.${this.itemClass}`,
         handle: `.${this.handleClass}`,
         mirror: {
@@ -46,6 +46,10 @@
         },
       }).on('sortable:stop', ({ oldIndex, newIndex }) => {
         this.$emit('input', move(this.value, oldIndex, newIndex))
+      })
+      
+      this.$on('hook:destroyed', () => {
+        sortable.destroy()
       })
     }
   }
